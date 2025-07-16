@@ -16,11 +16,10 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
   };
+
 
   const fetchUser = async () => {
     try {
@@ -46,7 +45,9 @@ export const AuthProvider = ({ children }) => {
       // 3. Get CSRF token from cookie
       const csrfToken = getCookie("csrftoken");
       console.log("👉 CSRF token during logout:", csrfToken);
-
+      if (!csrfToken) {
+        console.warn("❌ CSRF token is missing. Cookie might not be accessible.");
+      }
       // 4. Send logout request with CSRF token in header
       await axios.post(
         `${API}/api/auth/logout/`,
