@@ -48,7 +48,7 @@ const UploadSection = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const csrfToken = getCSRFToken(); // ✅ clean token fetch
+    const csrfToken = await getCSRFToken(); 
 
     try {
       const res = await axios.post(
