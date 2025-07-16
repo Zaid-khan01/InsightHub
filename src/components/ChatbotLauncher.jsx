@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Bot, X, Send, Trash2, Paperclip } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
 import { getCSRFToken } from "../utils/csrf"; 
+import axiosInstance from "../api/axiosInstance";
 
 const ChatbotLauncher = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,17 +38,12 @@ const ChatbotLauncher = () => {
       const csrfToken = await getCSRFToken();
 console.log("💡 CSRF Token:", csrfToken); // ✅ Add this for debug
 
-const res = await axios.post(
-  `${import.meta.env.VITE_BACKEND_URL}/api/chatbot/`,
-  formData,
-  {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      "X-CSRFToken": csrfToken || "", // 👈 Add fallback to avoid undefined
-    },
-    withCredentials: true,
-  }
-);
+const res = await axiosInstance.post("/api/chatbot/", formData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+    "X-CSRFToken": csrfToken || "",
+  },
+});
 
       const botMessage = {
         type: "bot",

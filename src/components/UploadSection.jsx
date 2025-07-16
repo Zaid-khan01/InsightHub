@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useFile } from "../context/FileContext";
 import { getCSRFToken } from "../utils/csrf";
+import axiosInstance from "../api/axiosInstance";
 
 const UploadSection = () => {
   const [fileName, setFileName] = useState("");
@@ -48,20 +48,15 @@ const UploadSection = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const csrfToken = await getCSRFToken(); 
+    const csrfToken = await getCSRFToken();
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/upload/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "X-CSRFToken": csrfToken, // ✅ essential!
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await axiosInstance.post("/api/upload/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": csrfToken,
+        },
+      });
 
       const preview = res.data.preview || [];
       toast.success("Uploaded & Processed Successfully 🎉");
@@ -98,11 +93,10 @@ const UploadSection = () => {
         <div className="bg-white/5 backdrop-blur rounded-2xl p-8 shadow-xl border border-white/10 flex flex-col items-center justify-center gap-4">
           <div
             {...getRootProps()}
-            className={`cursor-pointer flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition ${
-              isDragActive
+            className={`cursor-pointer flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition ${isDragActive
                 ? "bg-purple-600/20"
                 : "border-purple-500 hover:bg-purple-500/10"
-            }`}
+              }`}
           >
             <input {...getInputProps()} />
             <FileUp size={32} className="text-purple-400 mb-2" />
@@ -119,11 +113,10 @@ const UploadSection = () => {
             whileHover={{ scale: fileName ? 1.05 : 1 }}
             disabled={!fileName || isUploading || isUploaded}
             onClick={handleConfirm}
-            className={`mt-4 px-6 py-3 rounded-full font-medium transition ${
-              fileName
+            className={`mt-4 px-6 py-3 rounded-full font-medium transition ${fileName
                 ? "bg-purple-600 hover:bg-purple-700"
                 : "bg-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             {isUploading ? (
               <span className="flex items-center gap-2">
