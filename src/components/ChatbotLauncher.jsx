@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Bot, X, Send, Trash2, Paperclip } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import { getCSRFToken } from "../utils/csrf"; 
 
 const ChatbotLauncher = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,17 +34,10 @@ const ChatbotLauncher = () => {
     setSelectedFile(null);
     setFileInputKey(Date.now());
 
-    const csrfToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("csrftoken="))
-      ?.split("=")[1];
-
     try {
+      const csrfToken = await getCSRFToken(); 
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/chatbot/`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": csrfToken, // ✅ fix
-        },
+        headers: { "Content-Type": "multipart/form-data" , "X-CSRFToken": csrfToken,},
         withCredentials: true,
       });
 

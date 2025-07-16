@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useFile } from "../context/FileContext";
+import { getCSRFToken } from "../utils/csrf";
 
 const UploadSection = () => {
   const [fileName, setFileName] = useState("");
@@ -34,50 +35,47 @@ const UploadSection = () => {
       "application/vnd.ms-excel": [],
       "text/csv": [],
     },
-
   });
+
   const handleConfirm = async () => {
-  const file = acceptedFiles[0];
-  if (!file) {
-    toast.error("No file selected");
-    return;
-  }
+    const file = acceptedFiles[0];
+    if (!file) {
+      toast.error("No file selected");
+      return;
+    }
 
-  setIsUploading(true);
-  const formData = new FormData();
-  formData.append("file", file);
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
 
-  const csrfToken = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("csrftoken="))
-    ?.split("=")[1];
+    const csrfToken = getCSRFToken(); // ✅ clean token fetch
 
-  try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/upload/`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": csrfToken, // ✅ FIXED
-        },
-        withCredentials: true,
-      }
-    );
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/upload/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "X-CSRFToken": csrfToken, // ✅ essential!
+          },
+          withCredentials: true,
+        }
+      );
 
-    const preview = res.data.preview || [];
-    toast.success("Uploaded & Processed Successfully 🎉");
-    setPreviewData(preview.map((row) => Object.values(row)));
-    setFile(file);
-    setIsUploaded(true);
-    setTimeout(() => navigate("/dashboard"), 1500);
-  } catch (err) {
-    console.error("Upload error: ", err);
-    toast.error("Upload failed ❌ " + JSON.stringify(err.response?.data || err.message));
-  } finally {
-    setIsUploading(false);
-  }
-};
+      const preview = res.data.preview || [];
+      toast.success("Uploaded & Processed Successfully 🎉");
+      setPreviewData(preview.map((row) => Object.values(row)));
+      setFile(file);
+      setIsUploaded(true);
+      setTimeout(() => navigate("/dashboard"), 1500);
+    } catch (err) {
+      console.error("Upload error: ", err);
+      toast.error("Upload failed ❌ " + JSON.stringify(err.response?.data || err.message));
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <motion.section
@@ -91,14 +89,20 @@ const UploadSection = () => {
       <div className="max-w-screen-md mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-4">Upload Your Dataset</h2>
         <p className="text-gray-400 mb-10 text-sm sm:text-base">
-          Supported formats: <span className="text-purple-400">.csv</span>, <span className="text-purple-400">.xlsx</span>, <span className="text-purple-400">.xls</span>
+          Supported formats:{" "}
+          <span className="text-purple-400">.csv</span>,{" "}
+          <span className="text-purple-400">.xlsx</span>,{" "}
+          <span className="text-purple-400">.xls</span>
         </p>
 
         <div className="bg-white/5 backdrop-blur rounded-2xl p-8 shadow-xl border border-white/10 flex flex-col items-center justify-center gap-4">
           <div
             {...getRootProps()}
-            className={`cursor-pointer flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition ${isDragActive ? "bg-purple-600/20" : "border-purple-500 hover:bg-purple-500/10"
-              }`}
+            className={`cursor-pointer flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition ${
+              isDragActive
+                ? "bg-purple-600/20"
+                : "border-purple-500 hover:bg-purple-500/10"
+            }`}
           >
             <input {...getInputProps()} />
             <FileUp size={32} className="text-purple-400 mb-2" />
@@ -106,15 +110,20 @@ const UploadSection = () => {
           </div>
 
           {fileName && (
-            <p className="text-green-400 text-sm font-medium">Selected file: {fileName}</p>
+            <p className="text-green-400 text-sm font-medium">
+              Selected file: {fileName}
+            </p>
           )}
 
           <motion.button
             whileHover={{ scale: fileName ? 1.05 : 1 }}
             disabled={!fileName || isUploading || isUploaded}
             onClick={handleConfirm}
-            className={`mt-4 px-6 py-3 rounded-full font-medium transition ${fileName ? "bg-purple-600 hover:bg-purple-700" : "bg-gray-500 cursor-not-allowed"
-              }`}
+            className={`mt-4 px-6 py-3 rounded-full font-medium transition ${
+              fileName
+                ? "bg-purple-600 hover:bg-purple-700"
+                : "bg-gray-500 cursor-not-allowed"
+            }`}
           >
             {isUploading ? (
               <span className="flex items-center gap-2">
