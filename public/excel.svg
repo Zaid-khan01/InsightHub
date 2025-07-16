@@ -1,0 +1,5 @@
+<!-- public/excel.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+  <path fill="#107C41" d="M8 4h32a2 2 0 012 2v36a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z"></path>
+  <path fill="#fff" d="M17 16h2l3 5 3-5h2l-4 7 4 7h-2l-3-5-3 5h-2l4-7-4-7z"></path>
+</svg>

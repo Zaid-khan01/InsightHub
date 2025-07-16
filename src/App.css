@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[#0f172a] text-gray-300 font-sans;
+}
+body {
+  overflow-x: hidden;
+}
