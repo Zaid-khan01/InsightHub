@@ -37,41 +37,47 @@ const UploadSection = () => {
 
   });
   const handleConfirm = async () => {
-    const file = acceptedFiles[0];
-    if (!file) {
-      toast.error("No file selected");
-      return;
-    }
+  const file = acceptedFiles[0];
+  if (!file) {
+    toast.error("No file selected");
+    return;
+  }
 
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
+  setIsUploading(true);
+  const formData = new FormData();
+  formData.append("file", file);
 
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/upload/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+  const csrfToken = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("csrftoken="))
+    ?.split("=")[1];
 
-      const preview = res.data.preview || [];
-      toast.success("Uploaded & Processed Successfully 🎉");
-      setPreviewData(preview.map((row) => Object.values(row)));
-      setFile(file);
-      setIsUploaded(true);
-      setTimeout(() => navigate("/dashboard"), 1500);
-    } catch (err) {
-      console.error("Upload error: ", err);
-      toast.error("Upload failed ❌ " + JSON.stringify(err.response?.data || err.message));
-    } finally {
-      setIsUploading(false);
-    }
-  };
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/upload/`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": csrfToken, // ✅ FIXED
+        },
+        withCredentials: true,
+      }
+    );
+
+    const preview = res.data.preview || [];
+    toast.success("Uploaded & Processed Successfully 🎉");
+    setPreviewData(preview.map((row) => Object.values(row)));
+    setFile(file);
+    setIsUploaded(true);
+    setTimeout(() => navigate("/dashboard"), 1500);
+  } catch (err) {
+    console.error("Upload error: ", err);
+    toast.error("Upload failed ❌ " + JSON.stringify(err.response?.data || err.message));
+  } finally {
+    setIsUploading(false);
+  }
+};
 
   return (
     <motion.section
