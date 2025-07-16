@@ -1,25 +1,20 @@
+// src/utils/csrf.js
 import axios from "axios";
 
 export const getCSRFToken = async () => {
   try {
-    // 1. Request backend to set CSRF cookie
-    await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf/`, {
+    // ✅ Step 1: Call backend endpoint to get CSRF token
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf/`, {
       withCredentials: true,
     });
 
-    // 2. Small delay helps Safari sometimes
-    await new Promise((res) => setTimeout(res, 100));
+    // ✅ Step 2: Read CSRF token directly from response (no need to parse cookies manually)
+    const token = res.data?.csrfToken;
 
-    // 3. Read cookie from browser
-    const csrfToken = document.cookie
-      .split("; ")
-      .find((cookie) => cookie.startsWith("csrftoken="))
-      ?.split("=")[1];
-
-    console.log("✅ Parsed CSRF token from cookie:", csrfToken);
-    return csrfToken || null;
+    console.log("✅ CSRF token from API response:", token);
+    return token || null;
   } catch (err) {
-    console.error("❌ Error getting CSRF token:", err);
+    console.error("❌ Failed to fetch CSRF token:", err);
     return null;
   }
 };
