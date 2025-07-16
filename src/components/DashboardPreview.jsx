@@ -30,7 +30,6 @@ const DashboardPreview = () => {
 
   const tabs = ["Overview", "Charts", "AI Suggestions"];
 
-  // 🔐 Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
       navigate(`/login?next=${location.pathname}`);
@@ -45,7 +44,7 @@ const DashboardPreview = () => {
       formData.append("file", file);
 
       try {
-        const res = await fetch("http://localhost:8000/api/upload/", {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload/`, {
           method: "POST",
           body: formData,
         });

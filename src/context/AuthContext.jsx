@@ -15,20 +15,18 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Get CSRF token from cookie
   const getCookie = (name) => {
     const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
     return match ? match[2] : null;
   };
 
-  // Fetch user session info
   const fetchUser = async () => {
     try {
-      await axios.get(`${API}/api/csrf/`); // ensure CSRF cookie
+      await axios.get(`${API}/api/csrf/`);
       const res = await axios.get(`${API}/api/auth/user/`);
       setUser(res.data);
     } catch (err) {
-      setUser(null); // not authenticated
+      setUser(null); 
     } finally {
       setLoading(false);
     }
@@ -36,11 +34,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      // Refresh CSRF before logout
+      
       await axios.get(`${API}/api/csrf/`);
       const csrfToken = getCookie("csrftoken");
 
-      // Post to logout endpoint
       await axios.post(
         `${API}/api/auth/logout/`,
         {},
@@ -54,11 +51,9 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("loggedIn");
 
-      // Optional: clear cookies manually (in case browser keeps them)
       document.cookie = "sessionid=; Max-Age=0; path=/;";
       document.cookie = "csrftoken=; Max-Age=0; path=/;";
 
-      // Redirect to homepage and force state refresh
       navigate("/", { replace: true });
       window.location.reload();
     } catch (err) {

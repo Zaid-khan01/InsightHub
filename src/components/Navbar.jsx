@@ -19,14 +19,14 @@ const Navbar = () => {
   ];
 
  const handleLogout = async () => {
-  await logout(); // ✅ Already handles navigation & reload
-  setIsOpen(false); // ✅ Close mobile menu if open
+  await logout(); 
+  setIsOpen(false); 
 };
 
 
 useEffect(() => {
   if (!loading && !user && isOpen) {
-    setIsOpen(false); // close dropdown if user logs out
+    setIsOpen(false); 
   }
 }, [user, loading]);
 
@@ -49,7 +49,6 @@ useEffect(() => {
           InsightHub
         </Link>
 
-        {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-6 text-gray-300 font-medium">
           {navLinks.map(({ label, path }) => (
             <Link key={label} to={path} className="hover:text-white transition">
@@ -132,7 +131,6 @@ useEffect(() => {
           )}
         </div>
 
-        {/* Mobile Toggle */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="text-white">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -140,7 +138,6 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

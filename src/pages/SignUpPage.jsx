@@ -24,7 +24,6 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // Backend base URL from environment variable
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleChange = (e) =>
@@ -40,7 +39,6 @@ const SignUpPage = () => {
 
     setLoading(true);
     try {
-      // ✅ Get CSRF cookie first
       await axios.get(`${backendUrl}/api/csrf/`, { withCredentials: true });
 
       const csrfToken = document.cookie

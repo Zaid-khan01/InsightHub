@@ -5,14 +5,13 @@ const DownloadInsights = ({ suggestionRef, chartRef, pieRef }) => {
     const element = ref.current;
     if (!element) return;
 
-    // 👇 Temporarily force dark text for PDF rendering
     const originalClasses = [];
     const textElements = element.querySelectorAll("p, h1, h2, h3, h4, span, strong, b");
 
     textElements.forEach((el) => {
       originalClasses.push({ el, className: el.className });
       el.classList.remove("text-gray-100", "text-gray-300", "text-white");
-      el.classList.add("text-black"); // ✅ force dark text
+      el.classList.add("text-black"); 
     });
 
     const opt = {
@@ -33,7 +32,6 @@ const DownloadInsights = ({ suggestionRef, chartRef, pieRef }) => {
       .from(element)
       .save()
       .then(() => {
-        // 👇 Restore original styles after PDF saved
         originalClasses.forEach(({ el, className }) => {
           el.className = className;
         });

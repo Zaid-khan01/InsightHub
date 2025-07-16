@@ -8,7 +8,7 @@ const Footer = () => {
     <div className="w-full border-t border-white/10 mb-12" />
 
       <div className="max-w-screen-xl mx-auto px-6 py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 relative z-10">
-        {/* Brand Info */}
+        
         <div>
           <h2 className="text-2xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
   InsightHub
@@ -20,7 +20,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Navigation */}
+        
         <div>
           <h3 className="text-white font-semibold text-lg mb-3">Navigation</h3>
           <ul className="space-y-2 text-base">
@@ -31,7 +31,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Contact */}
+        
         <div>
           <h3 className="text-white font-semibold text-lg mb-3">Contact</h3>
           <ul className="space-y-2 text-base">
@@ -41,14 +41,14 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="https://github.com/Zaid-khan01" target="_blank" rel="noreferrer" className="hover:text-white transition">
+              <a href="https://github.com/Ahmadrazakhan-786" target="_blank" rel="noreferrer" className="hover:text-white transition">
                 GitHub
               </a>
             </li>
           </ul>
         </div>
 
-        {/* Social Icons */}
+        
         <div>
           <h3 className="text-white font-semibold text-lg mb-3">Connect</h3>
           <div className="flex gap-5 mt-2">
@@ -61,7 +61,7 @@ const Footer = () => {
               <Mail size={22} />
             </a>
             <a
-              href="https://github.com/Zaid-khan01"
+              href="https://github.com/Ahmadrazakhan-786"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition transform hover:scale-110"
@@ -69,7 +69,7 @@ const Footer = () => {
               <Github size={22} />
             </a>
             <a
-              href="https://linkedin.com/in/your-linkedin" // <-- Replace this
+              href="https://www.linkedin.com/in/zaid-khan-1123abc/" 
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition transform hover:scale-110"
@@ -80,7 +80,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Text */}
+      
       <div className="text-center text-gray-500 text-sm pb-8 mt-4">
         &copy; {new Date().getFullYear()} InsightHub. All rights reserved.
       </div>

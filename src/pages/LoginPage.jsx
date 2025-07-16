@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext"; // ✅ import your AuthContext
+import { useAuth } from "../context/AuthContext"; 
 import { Eye, EyeOff } from "lucide-react";
 import {
   UploadCloud,
@@ -14,7 +14,7 @@ import {
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { refreshUser } = useAuth(); // ✅ refresh user context after login
+  const { refreshUser } = useAuth(); // 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +30,7 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // 👇 Get CSRF token before login
+      
       await axios.get(`${backendUrl}/api/csrf/`);
 
       const csrfToken = getCookie("csrftoken");
@@ -48,7 +48,6 @@ const LoginPage = () => {
       localStorage.setItem("accessToken", access || "");
       localStorage.setItem("refreshToken", refresh || "");
 
-      // Step 4: Context update + redirect
       await refreshUser();
       alert("✅ Logged in successfully!");
       navigate("/");
@@ -75,15 +74,15 @@ const LoginPage = () => {
           </p>
           <ul className="space-y-3 text-sm sm:text-base text-white text-left mx-auto w-fit">
             <li className="flex items-center gap-2">
-              <UploadCloud size={18} color="#a78bfa" /> {/* purple-400 */}
+              <UploadCloud size={18} color="#a78bfa" /> 
               Upload Excel/CSV files easily
             </li>
             <li className="flex items-center gap-2">
-              <BarChart3 size={18} color="#f472b6" /> {/* pink-400 */}
+              <BarChart3 size={18} color="#f472b6" /> 
               AI-generated dashboards in seconds
             </li>
             <li className="flex items-center gap-2">
-              <Sparkles size={18} color="#38bdf8" /> {/* sky-400 */}
+              <Sparkles size={18} color="#38bdf8" /> 
               Smart suggestions for better analysis
             </li>
           </ul>

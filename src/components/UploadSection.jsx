@@ -30,59 +30,56 @@ const UploadSection = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [], // .xlsx
-      "application/vnd.ms-excel": [], // .xls
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [],
+      "application/vnd.ms-excel": [],
       "text/csv": [],
     },
 
   });
   const handleConfirm = async () => {
-  const file = acceptedFiles[0];
-  if (!file) {
-    toast.error("No file selected");
-    return;
-  }
+    const file = acceptedFiles[0];
+    if (!file) {
+      toast.error("No file selected");
+      return;
+    }
 
-  setIsUploading(true);
-  const formData = new FormData();
-  formData.append("file", file);
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
 
-  try {
-    // Step 1: Get CSRF cookie
-    await axios.get("http://localhost:8000/api/csrf/", { withCredentials: true });
+    try {
+      await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf/`, { withCredentials: true });
 
-    // ✅ Step 2: Read cookie manually and send it as header
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    };
+      const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      };
 
-    const csrfToken = getCookie("csrftoken");
+      const csrfToken = getCookie("csrftoken");
 
-    // Step 3: Upload with CSRF token
-    const res = await axios.post("http://localhost:8000/api/upload/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "X-CSRFToken": csrfToken,
-      },
-      withCredentials: true,
-    });
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": csrfToken,
+        },
+        withCredentials: true,
+      });
 
-    const preview = res.data.preview || [];
+      const preview = res.data.preview || [];
 
-    toast.success("Uploaded & Processed Successfully 🎉");
-    setPreviewData(preview.map((row) => Object.values(row)));
-    setFile(file);
-    setIsUploaded(true);
-    setTimeout(() => navigate("/dashboard"), 1500);
-  } catch (err) {
-    console.error("Upload error: ", err);
-    toast.error("Upload failed ❌ " + JSON.stringify(err.response?.data || err.message));
-  } finally {
-    setIsUploading(false);
-  }
-};
+      toast.success("Uploaded & Processed Successfully 🎉");
+      setPreviewData(preview.map((row) => Object.values(row)));
+      setFile(file);
+      setIsUploaded(true);
+      setTimeout(() => navigate("/dashboard"), 1500);
+    } catch (err) {
+      console.error("Upload error: ", err);
+      toast.error("Upload failed ❌ " + JSON.stringify(err.response?.data || err.message));
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <motion.section
@@ -136,7 +133,6 @@ const UploadSection = () => {
         </div>
       </div>
 
-      {/* Modal Preview */}
       {showPreview && previewData.length > 0 && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-[#1a182c] p-6 rounded-xl max-w-3xl w-full shadow-2xl border border-white/10">

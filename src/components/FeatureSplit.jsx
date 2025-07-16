@@ -1,4 +1,3 @@
-// src/components/FeatureSplit.jsx
 import { BarChart3, Brain, UploadCloud } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -7,7 +6,7 @@ const featureBlocks = [
     title: "Upload and Go",
     desc: "Upload Excel or CSV files effortlessly and let the system do the rest. No configs, no hassle.",
     icon: <UploadCloud size={28} className="text-purple-400" />,
-    img: "/undraw_upload_cucu.svg", // use any svg/png from unDraw or yours
+    img: "/undraw_upload_cucu.svg", 
   },
   {
     title: "AI Insights Instantly",
@@ -34,7 +33,7 @@ const FeatureSplit = () => {
             block.reverse ? "lg:flex-row-reverse" : ""
           }`}
         >
-          {/* Left Side - Image */}
+          
           <motion.img
             src={block.img}
             alt={block.title}
@@ -45,7 +44,7 @@ const FeatureSplit = () => {
             loading="lazy"
           />
 
-          {/* Right Side - Text */}
+          
           <motion.div
             className="lg:w-1/2"
             initial={{ opacity: 0, y: 40 }}

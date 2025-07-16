@@ -15,7 +15,6 @@ const HeroSection = () => {
       id="home"
       className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 sm:px-6 pt-28 sm:pt-32 text-center overflow-hidden"
     >
-      {/* 🟣 Single animated blur blob behind heading */}
       <motion.div
         className="absolute top-20 left-20 w-[300px] h-[300px] bg-purple-500/30 blur-[100px] rounded-full z-0 pointer-events-none -translate-x-1/2 -translate-y-1/2"
         animate={{
@@ -28,7 +27,6 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Heading */}
       <motion.h1
         className="relative z-10 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide 
                    bg-gradient-to-b from-sky-100 to-sky-400 text-transparent bg-clip-text 
@@ -44,18 +42,15 @@ const HeroSection = () => {
         From Your Data
       </motion.h1>
 
-      {/* Subheading */}
       <p className="relative z-10 text-gray-400 text-lg max-w-xl mx-auto tracking-wide mb-1">
         Upload CSVs and auto-generate charts & reports.
       </p>
 
-      {/* Typewriter */}
       <p className="relative z-10 text-base sm:text-lg text-purple-300 font-semibold mb-5">
         {text}
         <Cursor cursorStyle="|" />
       </p>
 
-      {/* CTA */}
       <motion.button
         whileHover={{ scale: 1.05, boxShadow: "0 0 20px #a855f7" }}
         className="relative z-10 px-6 py-3 bg-purple-600 text-white rounded-full font-medium 
@@ -65,7 +60,6 @@ const HeroSection = () => {
         Try Now
       </motion.button>
 
-      {/* Supported Tools */}
       <p className="relative z-10 text-gray-500 text-sm mt-8">Works with</p>
       <div className="relative z-10 flex gap-5 justify-center items-center mt-2">
         <img src="/excel.svg" className="h-10 sm:h-12" alt="Excel" />

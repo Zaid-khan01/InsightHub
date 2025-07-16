@@ -1,5 +1,3 @@
-// ✅ App.jsx (Full Updated Code with FileContext)
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -23,7 +21,7 @@ import ChatbotLauncher from "./components/ChatbotLauncher";
 
 import { FileProvider } from "./context/FileContext";
 
-// ✅ Home Page
+// Home Page
 const Home = () => (
   <>
     <HeroSection />
@@ -35,14 +33,14 @@ const Home = () => (
   </>
 );
 
-// ✅ Upload Page
+// Upload Page
 const UploadPage = () => (
   <main className="max-w-screen-xl mx-auto px-4 sm:px-6 py-12">
     <UploadSection />
   </main>
 );
 
-// ✅ Dashboard Page
+// Dashboard Page
 const DashboardPage = () => (
   <main className="max-w-screen-xl mx-auto px-4 sm:px-6 py-12">
     <DashboardPreview />
@@ -61,7 +59,7 @@ function App() {
         {!hideLayout && <Navbar />}
         <ScrollToTop />
 
-        {/* 🌐 All Routes */}
+        {/* All Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/upload" element={<UploadPage />} />
