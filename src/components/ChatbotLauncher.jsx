@@ -38,6 +38,7 @@ const ChatbotLauncher = () => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        withCredentials: false,
       });
 
       const botMessage = {
