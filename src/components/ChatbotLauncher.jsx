@@ -35,7 +35,7 @@ const ChatbotLauncher = () => {
     setFileInputKey(Date.now()); // Reset file input so same file can be uploaded again
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/chatbot/", formData, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/chatbot/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
