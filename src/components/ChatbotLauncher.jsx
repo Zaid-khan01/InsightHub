@@ -33,9 +33,17 @@ const ChatbotLauncher = () => {
     setSelectedFile(null);
     setFileInputKey(Date.now());
 
+    const csrfToken = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("csrftoken="))
+      ?.split("=")[1];
+
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/chatbot/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-CSRFToken": csrfToken, // ✅ fix
+        },
         withCredentials: true,
       });
 
