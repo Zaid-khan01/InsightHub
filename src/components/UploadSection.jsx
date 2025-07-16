@@ -49,7 +49,7 @@ const UploadSection = () => {
     formData.append("file", file);
 
     const csrfToken = await getCSRFToken();
-
+    console.log("🔐 Final CSRF being sent:", csrfToken);
     try {
       const res = await axiosInstance.post("/api/upload/", formData, {
         headers: {
@@ -94,8 +94,8 @@ const UploadSection = () => {
           <div
             {...getRootProps()}
             className={`cursor-pointer flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition ${isDragActive
-                ? "bg-purple-600/20"
-                : "border-purple-500 hover:bg-purple-500/10"
+              ? "bg-purple-600/20"
+              : "border-purple-500 hover:bg-purple-500/10"
               }`}
           >
             <input {...getInputProps()} />
@@ -114,8 +114,8 @@ const UploadSection = () => {
             disabled={!fileName || isUploading || isUploaded}
             onClick={handleConfirm}
             className={`mt-4 px-6 py-3 rounded-full font-medium transition ${fileName
-                ? "bg-purple-600 hover:bg-purple-700"
-                : "bg-gray-500 cursor-not-allowed"
+              ? "bg-purple-600 hover:bg-purple-700"
+              : "bg-gray-500 cursor-not-allowed"
               }`}
           >
             {isUploading ? (
