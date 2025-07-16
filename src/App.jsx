@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -48,6 +50,12 @@ const DashboardPage = () => (
 );
 
 function App() {
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf/`, {
+      withCredentials: true,
+    });
+  }, []);
+
   const location = useLocation();
   const hideLayout =
     location.pathname === "/login" || location.pathname === "/signup";
