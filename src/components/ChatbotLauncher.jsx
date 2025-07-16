@@ -35,11 +35,20 @@ const ChatbotLauncher = () => {
     setFileInputKey(Date.now());
 
     try {
-      const csrfToken = await getCSRFToken(); 
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/chatbot/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" , "X-CSRFToken": csrfToken,},
-        withCredentials: true,
-      });
+      const csrfToken = await getCSRFToken();
+console.log("💡 CSRF Token:", csrfToken); // ✅ Add this for debug
+
+const res = await axios.post(
+  `${import.meta.env.VITE_BACKEND_URL}/api/chatbot/`,
+  formData,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "X-CSRFToken": csrfToken || "", // 👈 Add fallback to avoid undefined
+    },
+    withCredentials: true,
+  }
+);
 
       const botMessage = {
         type: "bot",
