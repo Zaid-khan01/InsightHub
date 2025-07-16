@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Bot, X, Send, Trash2, Paperclip } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getCSRFToken } from "../utils/csrf"; 
 import axiosInstance from "../api/axiosInstance";
 
 const ChatbotLauncher = () => {
@@ -35,15 +34,11 @@ const ChatbotLauncher = () => {
     setFileInputKey(Date.now());
 
     try {
-      const csrfToken = await getCSRFToken();
-console.log("💡 CSRF Token:", csrfToken); // ✅ Add this for debug
-
-const res = await axiosInstance.post("/api/chatbot/", formData, {
-  headers: {
-    "Content-Type": "multipart/form-data",
-    "X-CSRFToken": csrfToken || "",
-  },
-});
+      const res = await axiosInstance.post("/api/chatbot/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       const botMessage = {
         type: "bot",
@@ -65,6 +60,7 @@ const res = await axiosInstance.post("/api/chatbot/", formData, {
       ]);
     }
   };
+
 
   const handleClearChat = () => {
     setMessages([]);
