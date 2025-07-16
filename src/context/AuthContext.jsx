@@ -16,17 +16,20 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const getCookie = (name) => {
-    const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-    return match ? match[2] : null;
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
   };
 
   const fetchUser = async () => {
     try {
-      await axios.get(`${API}/api/csrf/`);
-      const res = await axios.get(`${API}/api/auth/user/`);
+      await axios.get(`${API}/api/csrf/`, { withCredentials: true });
+      const res = await axios.get(`${API}/api/auth/user/`, { withCredentials: true });
+
       setUser(res.data);
     } catch (err) {
-      setUser(null); 
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -34,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      
+
       await axios.get(`${API}/api/csrf/`);
       const csrfToken = getCookie("csrftoken");
 
@@ -45,14 +48,13 @@ export const AuthProvider = ({ children }) => {
           headers: {
             "X-CSRFToken": csrfToken,
           },
+          withCredentials: true, // ✅ ADD THIS
         }
       );
 
+
       setUser(null);
       localStorage.removeItem("loggedIn");
-
-      document.cookie = "sessionid=; Max-Age=0; path=/;";
-      document.cookie = "csrftoken=; Max-Age=0; path=/;";
 
       navigate("/", { replace: true });
       window.location.reload();
