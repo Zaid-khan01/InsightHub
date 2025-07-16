@@ -48,26 +48,18 @@ const UploadSection = () => {
     formData.append("file", file);
 
     try {
-      await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf/`, { withCredentials: true });
-
-      const getCookie = (name) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-      };
-
-      const csrfToken = getCookie("csrftoken");
-
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload/`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-CSRFToken": csrfToken,
-        },
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/upload/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
 
       const preview = res.data.preview || [];
-
       toast.success("Uploaded & Processed Successfully 🎉");
       setPreviewData(preview.map((row) => Object.values(row)));
       setFile(file);
