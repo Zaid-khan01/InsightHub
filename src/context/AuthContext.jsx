@@ -36,19 +36,17 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      // 1. Get CSRF cookie from backend
-      await axios.get(`${API}/api/csrf/`, { withCredentials: true });
+      const csrfRes = await axios.get(`${API}/api/csrf/`, {
+        withCredentials: true,
+      });
 
-      // 2. Wait a tick to ensure cookie is available
-      await new Promise((res) => setTimeout(res, 200));
+      const csrfToken =
+        csrfRes.data?.csrfToken || getCookie("csrftoken");
 
-      // 3. Get CSRF token from cookie
-      const csrfToken = getCookie("csrftoken");
-      console.log("👉 CSRF token during logout:", csrfToken);
       if (!csrfToken) {
-        console.warn("❌ CSRF token is missing. Cookie might not be accessible.");
+        throw new Error("CSRF token missing.");
       }
-      // 4. Send logout request with CSRF token in header
+
       await axios.post(
         `${API}/api/auth/logout/`,
         {},
@@ -62,9 +60,9 @@ export const AuthProvider = ({ children }) => {
 
       setUser(null);
       localStorage.removeItem("loggedIn");
-
       navigate("/", { replace: true });
       window.location.reload();
+
     } catch (err) {
       console.error("Logout error:", err.response?.data || err.message);
     }
