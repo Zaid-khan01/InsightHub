@@ -67,16 +67,17 @@ function App() {
         {!hideLayout && <Navbar />}
         <ScrollToTop />
 
-        {/* All Routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<UploadPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/docs" element={<DocsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/upload" element={<UploadPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/docs" element={<DocsPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </div>
 
         {!hideBot && <ChatbotLauncher />}
         {!hideLayout && <Footer />}
@@ -86,5 +87,3 @@ function App() {
     </FileProvider>
   );
 }
-
-export default App;
