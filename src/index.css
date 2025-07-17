@@ -12,3 +12,9 @@ body {
 .animate-pulse-slow {
   animation: pulse-slow 6s ease-in-out infinite;
 }
+
+html,
+body,
+#root {
+  height: 100%;
+}

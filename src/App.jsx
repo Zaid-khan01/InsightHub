@@ -87,3 +87,5 @@ function App() {
     </FileProvider>
   );
 }
+
+export default App;
