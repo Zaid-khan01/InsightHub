@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useState, useEffect, Fragment } from "react";
+import "../spinner.css"; // 🔥 Import the spinner styles
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +20,8 @@ const Navbar = () => {
   ];
 
   const handleLogout = async () => {
+    setIsOpen(false); // No loading trigger here!
     await logout();
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const Navbar = () => {
           ))}
 
           {loading ? (
-            <span className="text-gray-400 text-sm animate-pulse">Loading...</span>
+            <div className="spinner" />
           ) : user ? (
             <HeadlessMenu as="div" className="relative inline-block text-left">
               <div>
@@ -157,7 +158,9 @@ const Navbar = () => {
             ))}
 
             {loading ? (
-              <p className="text-sm text-gray-400 mt-3 animate-pulse">Loading...</p>
+              <div className="mt-4 flex justify-center">
+                <div className="spinner" />
+              </div>
             ) : user ? (
               <>
                 <div className="flex items-center gap-3 mt-4">
