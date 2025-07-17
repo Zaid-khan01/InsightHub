@@ -18,17 +18,16 @@ const Navbar = () => {
     { label: "Docs", path: "/docs" },
   ];
 
- const handleLogout = async () => {
-  await logout(); 
-  setIsOpen(false); 
-};
+  const handleLogout = async () => {
+    await logout();
+    setIsOpen(false);
+  };
 
-
-useEffect(() => {
-  if (!loading && !user && isOpen) {
-    setIsOpen(false); 
-  }
-}, [user, loading]);
+  useEffect(() => {
+    if (!loading && !user && isOpen) {
+      setIsOpen(false);
+    }
+  }, [user, loading]);
 
   const getAvatarURL = (user) => {
     if (user?.photo_url) return user.photo_url;
@@ -56,7 +55,9 @@ useEffect(() => {
             </Link>
           ))}
 
-          {!loading && user ? (
+          {loading ? (
+            <span className="text-gray-400 text-sm animate-pulse">Loading...</span>
+          ) : user ? (
             <HeadlessMenu as="div" className="relative inline-block text-left">
               <div>
                 <HeadlessMenu.Button className="flex items-center gap-2 focus:outline-none">
@@ -120,14 +121,12 @@ useEffect(() => {
               </Transition>
             </HeadlessMenu>
           ) : (
-            !loading && (
-              <Link
-                to="/login"
-                className="px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 text-white transition font-medium"
-              >
-                Login / Signup
-              </Link>
-            )
+            <Link
+              to="/login"
+              className="px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 text-white transition font-medium"
+            >
+              Login / Signup
+            </Link>
           )}
         </div>
 
@@ -157,7 +156,9 @@ useEffect(() => {
               </Link>
             ))}
 
-            {!loading && user ? (
+            {loading ? (
+              <p className="text-sm text-gray-400 mt-3 animate-pulse">Loading...</p>
+            ) : user ? (
               <>
                 <div className="flex items-center gap-3 mt-4">
                   {avatarURL && (
@@ -192,15 +193,13 @@ useEffect(() => {
                 </button>
               </>
             ) : (
-              !loading && (
-                <Link
-                  to="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="block mt-3 text-white bg-purple-600 hover:bg-purple-700 text-center py-2 rounded-full font-medium transition"
-                >
-                  Login / Signup
-                </Link>
-              )
+              <Link
+                to="/login"
+                onClick={() => setIsOpen(false)}
+                className="block mt-3 text-white bg-purple-600 hover:bg-purple-700 text-center py-2 rounded-full font-medium transition"
+              >
+                Login / Signup
+              </Link>
             )}
           </motion.div>
         )}
