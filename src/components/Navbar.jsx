@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useState, useEffect, Fragment } from "react";
-import "../spinner.css"; // 🔥 Import the spinner styles
+import "../spinner.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -97,9 +97,8 @@ const Navbar = () => {
                       {({ active }) => (
                         <button
                           onClick={() => navigate("/dashboard")}
-                          className={`${
-                            active ? "bg-white/10" : ""
-                          } block px-4 py-2 w-full text-left`}
+                          className={`${active ? "bg-white/10" : ""
+                            } block px-4 py-2 w-full text-left`}
                         >
                           Dashboard
                         </button>
@@ -109,9 +108,8 @@ const Navbar = () => {
                       {({ active }) => (
                         <button
                           onClick={handleLogout}
-                          className={`${
-                            active ? "bg-white/10" : ""
-                          } block px-4 py-2 w-full text-left text-red-400`}
+                          className={`${active ? "bg-white/10" : ""
+                            } block px-4 py-2 w-full text-left text-red-400`}
                         >
                           Logout
                         </button>
