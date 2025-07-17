@@ -63,7 +63,7 @@ function App() {
 
   return (
     <FileProvider>
-      <div className="bg-[#0d0b1d] text-white font-inter overflow-x-hidden">
+      <div className="min-h-screen flex flex-col bg-[#0d0b1d] text-white font-inter overflow-x-hidden">
         {!hideLayout && <Navbar />}
         <ScrollToTop />
 
