@@ -20,7 +20,7 @@ const Navbar = () => {
   ];
 
   const handleLogout = async () => {
-    setIsOpen(false); // No loading trigger here!
+    setIsOpen(false); 
     await logout();
   };
 
