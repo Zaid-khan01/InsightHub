@@ -49,7 +49,6 @@ const UploadSection = () => {
     formData.append("file", file);
 
     const csrfToken = await getCSRFToken();
-    console.log("🔐 Final CSRF being sent:", csrfToken);
     try {
       const res = await axiosInstance.post("/api/upload/", formData, {
         headers: {
