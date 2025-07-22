@@ -65,9 +65,9 @@ const DashboardPreview = () => {
 
         const pieChartData = pie?.data
           ? Object.entries(pie.data).map(([key, val]) => ({
-              name: key,
-              value: val,
-            }))
+            name: key,
+            value: val,
+          }))
           : [];
 
         const cleanSuggestions = (json.insights || []).filter(
@@ -111,6 +111,10 @@ const DashboardPreview = () => {
         setIsLoading(false);
       } catch (error) {
         console.error("Upload failed:", error);
+        if (!error.response) {
+          navigate("/maintenance");
+        }
+
         setIsLoading(false);
       }
     };

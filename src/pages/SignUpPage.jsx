@@ -71,6 +71,9 @@ const SignUpPage = () => {
       alert("✅ Account created successfully!");
       navigate("/dashboard");
     } catch (err) {
+      if (!err.response) {
+        navigate("/maintenance");
+      }
       const msg = err.response?.data?.non_field_errors?.[0]
         || err.response?.data?.email?.[0]
         || err.response?.data?.password1?.[0]
@@ -83,7 +86,6 @@ const SignUpPage = () => {
 
   return (
     <section className="min-h-screen flex flex-col lg:flex-row">
-      {/* Left Side */}
       <div className="hidden lg:block w-1/2 fixed top-0 left-0 h-screen bg-gradient-to-br from-[#1a1829] to-[#201d33] text-white p-12 overflow-y-auto z-10">
         <div className="text-center space-y-6 max-w-md mx-auto mt-20">
           <Link
@@ -113,7 +115,6 @@ const SignUpPage = () => {
         </div>
       </div>
 
-      {/* Right Side */}
       <div className="w-full lg:ml-[50%] flex justify-center items-center bg-[#0d0b1d] px-4 sm:px-6 py-12 min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -129,7 +130,6 @@ const SignUpPage = () => {
             </p>
           </div>
 
-          {/* Google Sign Up */}
           <a
             href={`${import.meta.env.VITE_BACKEND_URL}/accounts/google/login/?process=signup`}
             className="w-full flex items-center justify-center gap-3 border border-white/10 py-3 rounded-md text-white bg-white/10 hover:bg-white/20 transition mb-6"
@@ -164,7 +164,6 @@ const SignUpPage = () => {
               className="w-full bg-transparent border border-white/20 rounded-md px-4 py-2 text-white focus:outline-none focus:border-purple-500"
             />
 
-            {/* Password Field */}
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -183,7 +182,6 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            {/* Confirm Password Field */}
             <div className="relative">
               <input
                 type={showConfirm ? "text" : "password"}

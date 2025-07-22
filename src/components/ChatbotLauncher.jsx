@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Bot, X, Send, Trash2, Paperclip } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import axiosInstance from "../api/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const ChatbotLauncher = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,7 @@ const ChatbotLauncher = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [lastPreview, setLastPreview] = useState(null);
   const [fileInputKey, setFileInputKey] = useState(Date.now());
+  const navigate = useNavigate();
 
   const handleSend = async () => {
     if (input.trim() === "" && !selectedFile && !lastPreview) return;
@@ -59,6 +61,9 @@ const ChatbotLauncher = () => {
           text: "❌ Error: " + (err.response?.data?.error || "Something went wrong"),
         },
       ]);
+      if (!err.response) {
+        navigate("/maintenance");
+      }
     }
   };
 

@@ -65,6 +65,9 @@ const UploadSection = () => {
       setTimeout(() => navigate("/dashboard"), 1500);
     } catch (err) {
       console.error("Upload error: ", err);
+      if (!err.response) {
+        navigate("/maintenance"); 
+      }
       toast.error("Upload failed ❌ " + JSON.stringify(err.response?.data || err.message));
     } finally {
       setIsUploading(false);

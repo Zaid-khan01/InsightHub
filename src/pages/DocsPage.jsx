@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { HelpCircle, UploadCloud, FileText, Mail } from "lucide-react";
 
-// Single section card component
 const Section = ({ icon, title, children, delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -21,11 +20,9 @@ const Section = ({ icon, title, children, delay = 0 }) => (
   </motion.div>
 );
 
-// Main Docs Page
 const DocsPage = () => {
   return (
     <section className="min-h-screen px-4 sm:px-6 py-24 max-w-screen-xl mx-auto">
-      {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -40,7 +37,6 @@ const DocsPage = () => {
         </p>
       </motion.div>
 
-      {/* Grid of Documentation Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <Section
           title="Getting Started"

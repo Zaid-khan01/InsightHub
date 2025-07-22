@@ -6,7 +6,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import MaintenancePage from "./pages/MaintenancePage";
 // Homepage sections
 import HeroSection from "./components/HeroSection";
 import Features from "./components/Features";
@@ -57,8 +57,9 @@ function App() {
   }, []);
 
   const location = useLocation();
-  const hideLayout =
-    location.pathname === "/login" || location.pathname === "/signup";
+  const hideFooterPaths = ["/login", "/signup", "/maintenance"];
+  const is404 = !["/", "/upload", "/dashboard", "/docs", "/login", "/signup", "/maintenance"].includes(location.pathname);
+  const hideLayout = hideFooterPaths.includes(location.pathname) || is404;
   const hideBot = ["/login", "/signup"].includes(location.pathname);
 
   return (
@@ -76,6 +77,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="/maintenance" element={<MaintenancePage />} />
           </Routes>
         </div>
 
